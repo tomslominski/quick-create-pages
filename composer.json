@@ -1,0 +1,22 @@
+{
+    "name": "tomslominski/quick-create-pages",
+    "description": "WordPress plugin for quickly adding a hierarchy of posts or pages when creating a new site.",
+    "type": "project",
+    "license": "GPL v3",
+    "authors": [
+        {
+            "name": "Tom Slominski",
+            "email": "tom@slomin.ski"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "QuickCreatePages\\": ["src/"]
+        },
+        "files": [
+            "utilities.php"
+        ]
+    }
+}
