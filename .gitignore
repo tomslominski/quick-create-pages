@@ -1,2 +1,5 @@
 /vendor/
 /.idea/
+/assets/
+/node_modules/
+mix-manifest.json
