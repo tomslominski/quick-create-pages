@@ -13,7 +13,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "QuickCreatePages\\": ["src/"]
+            "QuickCreatePages\\": ["app/"]
         },
         "files": [
             "utilities.php"
