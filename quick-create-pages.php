@@ -12,5 +12,17 @@
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
+use QuickCreatePages\Plugin;
+
+// Start the plugin
 require_once 'vendor/autoload.php';
-QuickCreatePages\Plugin::get_instance();
+Plugin::get_instance();
+
+/**
+ * Get the main plugin object.
+ *
+ * @return Plugin
+ */
+function QCP(): Plugin {
+	return Plugin::get_instance();
+}

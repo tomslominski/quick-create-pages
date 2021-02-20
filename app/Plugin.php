@@ -27,12 +27,19 @@ class Plugin
 	public string $plugin_url;
 
 	/**
+	 * @var SubmissionHandler Submission handler singleton class.
+	 */
+	public SubmissionHandler $submission_handler;
+
+	/**
 	 * Register hooks.
 	 */
 	public function __construct() {
 		$this->plugin_path = untrailingslashit( dirname(__DIR__) );
 		$this->plugin_filename = $this->plugin_path . '/quick-create-pages.php';
 		$this->plugin_url = plugin_dir_url( $this->plugin_filename );
+
+		$this->submission_handler = new SubmissionHandler();
 
 		add_action( 'admin_menu', [$this, 'register_page'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'enqueue_assets'] );

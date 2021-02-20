@@ -1,6 +1,8 @@
 <div class="wrap wp-core-ui" id="qcp-app">
 	<h1><?php _e( 'Quick Create Pages', 'quick-create-pages' ); ?></h1>
 
+	<?php \QuickCreatePages\get_template( 'messages.php' ); ?>
+
 	<form action="<?php echo admin_url( 'tools.php?page=quick-create-pages' ); ?>" method="POST" class="qcp-container">
 		<div class="qcp-main">
 			<page-list :pages="pages" :parent-page="null" :hierarchical="hierarchical" />
@@ -20,6 +22,8 @@
 			</div>
 
 			<div class="qcp-secondary-actions">
+				<input type="hidden" name="qcp[nonce]" value="<?php echo wp_create_nonce( 'qcp_create_pages' ); ?>">
+
 				<input type="submit" value="<?php _e( 'Create pages', 'quick-create-pages' ); ?>" class="button button-primary">
 			</div>
 		</div>
