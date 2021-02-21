@@ -28,4 +28,8 @@
 			</div>
 		</div>
 	</form>
+
+	<footer class="qcp-footer">
+		<p><?php printf( __( 'Ask questions and report bugs on <a href="%s">GitHub</a>.', 'quick-create-pages' ), 'https://github.com/tomslominski/quick-create-pages' ); ?></p>
+	</footer>
 </div>
