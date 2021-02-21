@@ -75,7 +75,7 @@
 			addChild() {
 				this.children.push( {
 					name: '',
-					page: '',
+					slug: '',
 					children: []
 				} );
 			},
