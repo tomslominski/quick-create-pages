@@ -63,9 +63,9 @@ class Plugin
 	 */
 	public function enqueue_assets() {
 		wp_register_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
-		wp_localize_script( 'quick-create-pages', 'qcpConfig', [
+		wp_localize_script( 'quick-create-pages', 'qcpConfig', apply_filters( 'qcp/js_config', [
 			'postTypes' => $this->get_post_types(),
-		] );
+		] ) );
 		wp_enqueue_script( 'quick-create-pages' );
 
 		wp_enqueue_style( 'quick-create-pages', $this->plugin_url . 'assets/css/style.css', [], get_plugin_version() );

@@ -59,8 +59,39 @@ class SubmissionHandler
 		if( $pages && $pages !== $default ) {
 			$this->save_pages( $pages, $post_type );
 
-			if( !$this->errors ) {
+			if( $this->errors ) {
+				// Hand the data back to the Vue script in the case of an error
+				if( isset( $_POST['qcp']['pages'] ) ) {
+					add_filter( 'qcp/js_config', function( array $config ) {
+						$config['pages'] = $_POST['qcp']['pages'];
+						$config['selectedPostType'] = $_POST['qcp']['post_type'] ?? 'page';
+
+						$this->parse_pages( $config['pages'] );
+
+						return $config;
+					} );
+				}
+			} else {
 				$this->messages[] = __( 'Pages created successfully.', 'quick-create-pages' );
+			}
+		}
+	}
+
+	/**
+	 * Parse pages from $_POST to ensure they have all the necessary properties.
+	 *
+	 * @param array $pages Array of pages
+	 */
+	public function parse_pages( array &$pages ) {
+		foreach( $pages as &$page ) {
+			$page = array_merge( [
+				'name' => '',
+				'slug' => '',
+				'children' => [],
+			], $page );
+
+			if( $page['children'] ) {
+				$this->parse_pages( $page['children'] );
 			}
 		}
 	}

@@ -1,3 +1,5 @@
+/* global qcpConfig */
+
 import { createApp } from 'vue';
 import PageItemComponent from './components/page-item';
 import PageListComponent from './components/page-list';
@@ -5,7 +7,7 @@ import PageListComponent from './components/page-list';
 createApp({
 	data() {
 		return {
-			pages: [
+			pages: qcpConfig.pages ?? [
 				{
 					name: '',
 					slug: '',
@@ -13,7 +15,7 @@ createApp({
 				},
 			],
 			postTypes: qcpConfig.postTypes,
-			selectedPostType: 'page'
+			selectedPostType: qcpConfig.selectedPostType ?? 'page'
 		}
 	},
 
