@@ -5,7 +5,7 @@
 
 	<form action="<?php echo admin_url( 'tools.php?page=quick-create-pages' ); ?>" method="POST" class="qcp-container">
 		<div class="qcp-main">
-			<page-list :pages="pages" :parent-page="null" :hierarchical="hierarchical" />
+			<page-list :pages="pages" :hierarchical="hierarchical" />
 		</div>
 
 		<div class="qcp-secondary">

@@ -1,6 +1,12 @@
 <template>
 	<div class="qcp-page-list">
-		<page-item v-for="page in pages" :page="page" :parent-page-list="pages" :key="page.getKey()" :hierarchical="hierarchical" />
+		<page-item v-for="(page, index) in pages"
+				   :key="index"
+				   :id="index"
+				   v-model:name="page.name"
+				   v-model:slug="page.slug"
+				   v-model:children="page.children"
+				   :hierarchical="hierarchical" />
 	</div>
 
 	<div class="qcp-page-list-tools" v-if="pages.length > 0">
@@ -9,17 +15,11 @@
 </template>
 
 <script>
-	import Page from "../classes/page";
-
 	export default {
 		props: {
 			pages: {
 				type: Array,
 				required: true,
-			},
-			parentPage: {
-				type: Page,
-				required: false,
 			},
 			hierarchical: {
 				type: Boolean,
@@ -31,7 +31,11 @@
 			 * Add page to the end of current page list.
 			 */
 			addPage() {
-				this.pages.push( new Page('', '', [], this.parentPage, this.pages.length) );
+				this.pages.push( {
+					name: '',
+					slug: '',
+					children: [],
+				} );
 			},
 		}
 	}

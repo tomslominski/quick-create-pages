@@ -1,13 +1,16 @@
 import { createApp } from 'vue';
 import PageItemComponent from './components/page-item';
 import PageListComponent from './components/page-list';
-import Page from './classes/page';
 
 createApp({
 	data() {
 		return {
 			pages: [
-				new Page( '', '', [], null, 0 ),
+				{
+					name: '',
+					slug: '',
+					children: [],
+				},
 			],
 			postTypes: {
 				post: {
@@ -41,16 +44,12 @@ createApp({
 		 * @returns {string}
 		 */
 		preCreationMessage() {
-			let top = 0;
+			let top = this.pages.length;
 			let children = 0;
 
 			const count = pages => {
 				pages.forEach( page => {
-					if( page.depth === 1 ) {
-						top++;
-					} else {
-						children++;
-					}
+					children++;
 
 					if( page.children.length > 0 ) {
 						count( page.children );
@@ -59,6 +58,8 @@ createApp({
 			}
 
 			count(this.pages);
+
+			children = children - top;
 
 			if( this.hierarchical ) {
 				return `${top + children} ${top + children === 1 ? 'page' : 'pages'}, including ${top} top level ${top === 1 ? 'page' : 'pages'} and ${children} child ${children === 1 ? 'page' : 'pages'} will be created.`;
