@@ -62,8 +62,37 @@ class Plugin
 	 * Enqueue assets.
 	 */
 	public function enqueue_assets() {
-		wp_enqueue_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
+		wp_register_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
+		wp_localize_script( 'quick-create-pages', 'qcpConfig', [
+			'postTypes' => $this->get_post_types(),
+		] );
+		wp_enqueue_script( 'quick-create-pages' );
+
 		wp_enqueue_style( 'quick-create-pages', $this->plugin_url . 'assets/css/style.css', [], get_plugin_version() );
+	}
+
+	/**
+	 * Let a list of post types which can be created by the plugin.
+	 *
+	 * @return array
+	 */
+	public function get_post_types(): array {
+		$post_types = get_post_types( [
+			'public' => true,
+		], 'objects' );
+		$return = [];
+
+		foreach( $post_types as $post_type ) {
+			$return[$post_type->name] = [
+				'slug' => $post_type->name,
+				'name' => $post_type->labels->singular_name,
+				'hierarchical' => $post_type->hierarchical,
+			];
+		}
+
+		unset( $return['attachment'] );
+
+		return apply_filters( 'qcp/post_types', (array) $return );
 	}
 
 	/**

@@ -12,18 +12,7 @@ createApp({
 					children: [],
 				},
 			],
-			postTypes: {
-				post: {
-					slug: 'post',
-					name: 'Post',
-					hierarchical: false
-				},
-				page: {
-					slug: 'page',
-					name: 'Page',
-					hierarchical: true
-				}
-			},
+			postTypes: qcpConfig.postTypes,
 			selectedPostType: 'page'
 		}
 	},
