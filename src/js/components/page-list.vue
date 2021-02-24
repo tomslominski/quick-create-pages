@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="qcp-page-list-tools" v-if="pages.length > 0">
-		<button type="button" @click="addPage" class="button qcp-add-page">Add page</button>
+		<button type="button" @click="addPage" class="button qcp-add-page">{{ $translate('Add page') }}</button>
 	</div>
 </template>
 

@@ -2,19 +2,19 @@
 	<div class="qcp-page">
 		<div class="qcp-page-main">
 			<div class="qcp-form-field">
-				<label :for="this.getIdAttribute('name')">Name</label>
+				<label :for="this.getIdAttribute('name')">{{ $translate('Name') }}</label>
 				<input type="text" :name="this.getNameAttribute('name')" :id="this.getIdAttribute('name')" :value="this.name" @input="$emit('update:name', $event.target.value)">
 			</div>
 
 			<div class="qcp-form-field">
-				<label :For="this.getIdAttribute('slug')">Slug</label>
+				<label :For="this.getIdAttribute('slug')">{{ $translate('Slug') }}</label>
 				<input type="text" :name="this.getNameAttribute('slug')" :id="this.getIdAttribute('slug')" :value="this.slug"  @input="$emit('update:slug', $event.target.value)">
 			</div>
 
 			<div class="qcp-form-field qcp-form-field-submit" v-if="(this.depth > 1 || this.siblings.length > 1) || (this.hierarchical && this.depth < 5)">
-				<button type="button" @click="deletePage" class="qcp-delete-page" v-if="this.depth > 1 || this.siblings.length > 1">Delete page</button>
+				<button type="button" @click="deletePage" class="qcp-delete-page" v-if="this.depth > 1 || this.siblings.length > 1">{{ $translate('Delete page') }}</button>
 
-				<button type="button" @click="addChild" class="button qcp-add-child-page" v-if="this.hierarchical && this.depth < 5">Add child page</button>
+				<button type="button" @click="addChild" class="button qcp-add-child-page" v-if="this.hierarchical && this.depth < 5">{{ $translate('Add child page') }}</button>
 			</div>
 		</div>
 

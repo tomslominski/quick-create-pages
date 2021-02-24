@@ -11,7 +11,7 @@
 		<div class="qcp-secondary">
 			<div class="qcp-secondary-text">
 				<div class="qcp-form-field">
-					<label for="qcp-post_type">Post type</label>
+					<label for="qcp-post_type"><?php _e( 'Post type', 'quick-create-pages' ); ?></label>
 
 					<select name="qcp[post_type]" id="qcp-post_type" @change="onPostTypeChange" ref="qcp-post_type">
 						<option v-for="postType in postTypes " :value="postType.slug">{{ postType.name }}</option>

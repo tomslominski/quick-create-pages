@@ -65,6 +65,7 @@ class Plugin
 		wp_register_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
 		wp_localize_script( 'quick-create-pages', 'qcpConfig', apply_filters( 'qcp/js_config', [
 			'postTypes' => $this->get_post_types(),
+			'strings' => $this->get_strings(),
 		] ) );
 		wp_enqueue_script( 'quick-create-pages' );
 
@@ -86,6 +87,7 @@ class Plugin
 			$return[$post_type->name] = [
 				'slug' => $post_type->name,
 				'name' => $post_type->labels->singular_name,
+				'pluralName' => $post_type->labels->name,
 				'hierarchical' => $post_type->hierarchical,
 			];
 		}
@@ -93,6 +95,24 @@ class Plugin
 		unset( $return['attachment'] );
 
 		return apply_filters( 'qcp/post_types', (array) $return );
+	}
+
+	/**
+	 * Get translatable strings to be used in JavaScript.
+	 *
+	 * @return array
+	 */
+	public function get_strings(): array {
+		return [
+			'Name' => __( 'Name', 'quick-create-pages' ),
+			'Slug' => __( 'Slug', 'quick-create-pages' ),
+			'Changing from a hierarchical post type to a non-hierarchical post type will erase all child pages. Continue?' => __( 'Changing from a hierarchical post type to a non-hierarchical post type will erase all child pages. Continue?', 'quick-create-pages' ),
+			'{0} {1}, including {2} top level {3} and {4} child {5} will be created.' => __( '{0} {1}, including {2} top level {3} and {4} child {5} will be created.', 'quick-create-pages' ),
+			'{0} {1} will be created.' => __( '{0} {1} will be created.', 'quick-create-pages' ),
+			'Delete page' => __( 'Delete page', 'quick-create-pages' ),
+			'Add child page' => __( 'Add child page', 'quick-create-pages' ),
+			'Add page' => __( 'Add page', 'quick-create-pages' ),
+		];
 	}
 
 	/**

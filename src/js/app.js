@@ -3,6 +3,7 @@
 import { createApp } from 'vue';
 import PageItemComponent from './components/page-item';
 import PageListComponent from './components/page-list';
+import translate from './translate';
 
 createApp({
 	data() {
@@ -52,10 +53,23 @@ createApp({
 
 			children = children - top;
 
+			const singular = this.postTypes[this.selectedPostType].name.toLowerCase();
+			const plural = this.postTypes[this.selectedPostType].pluralName.toLowerCase();
+
 			if( this.hierarchical ) {
-				return `${top + children} ${top + children === 1 ? 'page' : 'pages'}, including ${top} top level ${top === 1 ? 'page' : 'pages'} and ${children} child ${children === 1 ? 'page' : 'pages'} will be created.`;
+				return this.$translatePlaceholders('{0} {1}, including {2} top level {3} and {4} child {5} will be created.',
+					top + children,
+					top + children === 1 ? singular : plural,
+					top,
+					top === 1 ? singular : plural,
+					children,
+					children === 1 ? singular : plural
+				);
 			} else {
-				return `${top + children} ${top + children === 1 ? 'page' : 'pages'} will be created.`;
+				return this.$translatePlaceholders('{0} {1} will be created.',
+					top + children,
+					top + children === 1 ? singular : plural
+				);
 			}
 		}
 	},
@@ -88,7 +102,7 @@ createApp({
 				this.selectedPostType = newValue.slug;
 			} else {
 				if( hasChildren ) {
-					if( confirm( 'Changing from a hierarchical post type to a non-hierarchical post type will erase all child pages. Continue?' ) ) {
+					if( confirm( this.$translate( 'Changing from a hierarchical post type to a non-hierarchical post type will erase all child pages. Continue?' ) ) ) {
 						this.pages.forEach( page => {
 							page.children = [];
 						} );
@@ -106,4 +120,5 @@ createApp({
 })
 .component('page-item', PageItemComponent)
 .component('page-list', PageListComponent)
+.use(translate)
 .mount("#qcp-app");
