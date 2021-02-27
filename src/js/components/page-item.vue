@@ -86,11 +86,7 @@
 			 * Delete current page.
 			 */
 			deletePage() {
-				this.siblings.forEach( (sibling, index) => {
-					if( this.id === sibling.id ) {
-						this.siblings.splice(index, 1);
-					}
-				});
+				this.siblings.splice(this.id, 1);
 			},
 
 			/**
