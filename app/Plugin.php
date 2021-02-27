@@ -54,7 +54,7 @@ class Plugin
 			__('Quick Create Pages', 'quick-create-pages'),
 			'publish_pages',
 			'quick-create-pages',
-			fn() => get_template('plugin-page.php'),
+			fn() => get_template('plugin-page'),
 		);
 	}
 
@@ -62,14 +62,18 @@ class Plugin
 	 * Enqueue assets.
 	 */
 	public function enqueue_assets() {
-		wp_register_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
-		wp_localize_script( 'quick-create-pages', 'qcpConfig', apply_filters( 'qcp/js_config', [
-			'postTypes' => $this->get_post_types(),
-			'strings' => $this->get_strings(),
-		] ) );
-		wp_enqueue_script( 'quick-create-pages' );
+		if( ( $screen = get_current_screen() ) && 'tools_page_quick-create-pages' === $screen->id ) {
+			wp_register_script( 'quick-create-pages', $this->plugin_url . 'assets/js/app.js', [], get_plugin_version(), true );
+			wp_localize_script( 'quick-create-pages', 'qcpConfig', apply_filters( 'qcp/js_config', [
+				'postTypes' => $this->get_post_types(),
+				'strings' => $this->get_strings(),
+				'formAction' => admin_url( 'tools.php?page=quick-create-pages' ),
+				'nonce' => wp_create_nonce( 'qcp_create_pages' ),
+			] ) );
+			wp_enqueue_script( 'quick-create-pages' );
 
-		wp_enqueue_style( 'quick-create-pages', $this->plugin_url . 'assets/css/style.css', [], get_plugin_version() );
+			wp_enqueue_style( 'quick-create-pages', $this->plugin_url . 'assets/css/style.css', [], get_plugin_version() );
+		}
 	}
 
 	/**
@@ -112,6 +116,8 @@ class Plugin
 			'Delete page' => __( 'Delete page', 'quick-create-pages' ),
 			'Add child page' => __( 'Add child page', 'quick-create-pages' ),
 			'Add page' => __( 'Add page', 'quick-create-pages' ),
+			'Create {0}' => __( 'Create {0}', 'quick-create-pages' ),
+			'Post type' => __( 'Post type', 'quick-create-pages' ),
 		];
 	}
 

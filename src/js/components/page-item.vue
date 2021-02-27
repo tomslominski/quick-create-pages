@@ -1,17 +1,17 @@
 <template>
 	<div class="qcp-page">
-		<div class="qcp-page-main">
+		<div class="qcp-page-self">
 			<div class="qcp-form-field">
 				<label :for="this.getIdAttribute('name')">{{ $translate('Name') }}</label>
 				<input type="text" :name="this.getNameAttribute('name')" :id="this.getIdAttribute('name')" :value="this.name" @input="$emit('update:name', $event.target.value)">
 			</div>
 
 			<div class="qcp-form-field">
-				<label :For="this.getIdAttribute('slug')">{{ $translate('Slug') }}</label>
+				<label :for="this.getIdAttribute('slug')">{{ $translate('Slug') }}</label>
 				<input type="text" :name="this.getNameAttribute('slug')" :id="this.getIdAttribute('slug')" :value="this.slug"  @input="$emit('update:slug', $event.target.value)">
 			</div>
 
-			<div class="qcp-form-field qcp-form-field-submit" v-if="(this.depth > 1 || this.siblings.length > 1) || (this.hierarchical && this.depth < 5)">
+			<div class="qcp-form-field qcp-page-actions" v-if="(this.depth > 1 || this.siblings.length > 1) || (this.hierarchical && this.depth < 5)">
 				<button type="button" @click="deletePage" class="qcp-delete-page" v-if="this.depth > 1 || this.siblings.length > 1">{{ $translate('Delete page') }}</button>
 
 				<button type="button" @click="addChild" class="button qcp-add-child-page" v-if="this.hierarchical && this.depth < 5">{{ $translate('Add child page') }}</button>
@@ -26,6 +26,8 @@
 
 <script>
 	export default {
+		name: 'PageItem',
+
 		props: {
 			id: {
 				type: Number,
@@ -101,7 +103,7 @@
 				let currentComponent = this;
 				let ids = [];
 
-				while( currentComponent && currentComponent?.$parent ) {
+				while( currentComponent && currentComponent.$options.name !== 'QcpApp' ) {
 					ids.push(currentComponent.id);
 					currentComponent = currentComponent?.$parent?.$parent;
 				}
@@ -142,7 +144,7 @@
 			 */
 			getIdAttribute(name) {
 				return this.getNameAttribute(name)
-					.replace(/\[|\]/g, '-')
+					.replace(/[|]/g, '-')
 					.replaceAll('--', '-')
 					.replace(/-$/, '');
 			},

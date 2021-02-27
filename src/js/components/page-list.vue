@@ -16,6 +16,8 @@
 
 <script>
 	export default {
+		name: 'PageList',
+
 		props: {
 			pages: {
 				type: Array,
