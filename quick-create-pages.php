@@ -5,7 +5,7 @@
  * Description: Quickly add a hierarchy of posts or pages when creating a new site.
  * Version: 1.0.0
  * Requires at least: 5.2
- * Requires PHP: 7.4
+ * Requires PHP: 7.3
  * Author: Tom Slominski
  * Author URI: https://slomin.ski/
  * License: GPL v3
