@@ -120,7 +120,9 @@ export default {
 			const newValue = this.postTypes[event.target.value];
 			const hasChildren = (() => {
 				for( let page of this.pages ) {
-					return page.children.length > 0;
+					if( page.children.length > 0 ) {
+						return true;
+					}
 				}
 
 				return false;
