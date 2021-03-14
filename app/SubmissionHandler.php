@@ -43,7 +43,8 @@ class SubmissionHandler
 	 * Save the pages.
 	 */
 	public function process_submission() {
-		$post_type = $_POST['qcp']['post_type'] ?? null;
+		$post_type = isset( $_POST['qcp']['post_type'] ) ? sanitize_text_field( $_POST['qcp']['post_type'] ) : null;
+		$post_type_object = get_post_type_object( $post_type );
 		$pages = $_POST['qcp']['pages'] ?? null;
 		$default = [
 			[
@@ -55,19 +56,25 @@ class SubmissionHandler
 		// Check if nonce is valid
 		if( !isset( $_POST['qcp']['nonce'] ) || !wp_verify_nonce( $_POST['qcp']['nonce'], 'qcp_create_pages' ) ) {
 			$this->errors[] = __( 'An error occurred. Please try creating the pages again.', 'quick-create-pages' );
+			return;
 		}
 
 		// Check if post type is valid
-		if( !isset( $post_type ) || !in_array( $post_type, get_post_types( [
-			'public' => true,
-		] ) ) ) {
+		if( !$post_type_object || !$post_type_object->public ) {
 			$this->errors[] = __( 'An incorrect post type was set. Please try creating the pages again.', 'quick-create-pages' );
-			$post_type = 'page';
+			return;
+		}
+
+		// Check if the user is allowed to create posts of this type
+		if( !current_user_can( $post_type_object->cap->publish_posts ) ) {
+			$this->errors[] = __( 'You are not allowed to create posts of this post type.', 'quick-create-pages' );
+			return;
 		}
 
 		// Check if posts were provided
 		if( !isset( $pages ) || $pages === $default ) {
 			$this->errors[] = __( 'No pages were added. Please try creating the pages again.', 'quick-create-pages' );
+			return;
 		}
 
 		if( !$this->errors ) {

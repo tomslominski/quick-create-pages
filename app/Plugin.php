@@ -88,12 +88,14 @@ class Plugin
 		$return = [];
 
 		foreach( $post_types as $post_type ) {
-			$return[$post_type->name] = [
-				'slug' => $post_type->name,
-				'name' => $post_type->labels->singular_name,
-				'pluralName' => $post_type->labels->name,
-				'hierarchical' => $post_type->hierarchical,
-			];
+			if( current_user_can( $post_type->cap->publish_posts ) ) {
+				$return[$post_type->name] = [
+					'slug' => $post_type->name,
+					'name' => $post_type->labels->singular_name,
+					'pluralName' => $post_type->labels->name,
+					'hierarchical' => $post_type->hierarchical,
+				];
+			}
 		}
 
 		unset( $return['attachment'] );
