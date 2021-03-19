@@ -46,10 +46,18 @@ class SubmissionHandler
 		$post_type = isset( $_POST['qcp']['post_type'] ) ? sanitize_text_field( $_POST['qcp']['post_type'] ) : null;
 		$post_type_object = get_post_type_object( $post_type );
 		$pages = $_POST['qcp']['pages'] ?? null;
+
+		if( $pages ) {
+			$this->parse_pages( $pages );
+		} else {
+			return;
+		}
+
 		$default = [
 			[
 				'name' => '',
 				'slug' => '',
+				'children' => [],
 			],
 		];
 
